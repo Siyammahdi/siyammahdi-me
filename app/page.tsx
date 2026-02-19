@@ -34,8 +34,30 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [handleScroll])
 
+  const [isBottom, setIsBottom] = useState(false)
+  const [isTop, setIsTop] = useState(true)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY
+      const windowHeight = window.innerHeight
+      const docHeight = document.documentElement.scrollHeight
+
+      // Detect top
+      setIsTop(scrollTop <= 5)
+
+      // Detect bottom
+      setIsBottom(scrollTop + windowHeight >= docHeight - 5)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
   return (
     <main className="relative min-h-screen">
+      <div className={`h-[20vh] w-[100vw] fixed top-0 bg-gradient-to-b from-black via-black/80 to-transparent z-99 ${isTop ? "hidden" : "block"}`}></div>
+      <div className={`h-[20vh] w-[100vw] fixed bottom-0 bg-gradient-to-t from-black via-black/80 to-transparent z-99 ${isBottom ? "hidden" : "block"}`}></div>
       <AnimatedGrid />
       <SideNavigation activeSection={activeSection} />
       <CommandPalette />

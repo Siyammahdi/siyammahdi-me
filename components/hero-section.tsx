@@ -1,9 +1,36 @@
 "use client"
 
-import { motion } from "framer-motion"
+import { useState, useRef, useCallback } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { Github, Linkedin, Facebook, FileText, ArrowDown, Terminal, Sparkles } from "lucide-react"
+import {
+  Github,
+  Linkedin,
+  Facebook,
+  FileText,
+  ArrowDown,
+  Terminal,
+  Sparkles,
+  Code2,
+  Palette,
+  Atom,
+  Zap,
+  Layers,
+  Move,
+  LayoutGrid,
+  Server,
+  Route,
+  Database,
+  Key,
+  Link2,
+  Flame,
+  Cloud,
+  Send,
+  Mail,
+  ChevronRight,
+} from "lucide-react"
+import Marquee from "react-fast-marquee"
 
 const socialLinks = [
   {
@@ -36,6 +63,30 @@ const socialLinks = [
   },
 ]
 
+const skills = [
+  { name: "TypeScript", icon: Code2 },
+  { name: "JavaScript", icon: Code2 },
+  { name: "Tailwind", icon: Palette },
+  { name: "React.js", icon: Atom },
+  { name: "Next.js", icon: Zap },
+  { name: "Redux", icon: Layers },
+  { name: "Framer Motion", icon: Move },
+  { name: "Webflow", icon: LayoutGrid },
+  { name: "Node.js", icon: Server },
+  { name: "Express.js", icon: Route },
+  { name: "Mongoose", icon: Database },
+  { name: "Prisma", icon: Key },
+  { name: "RESTful APIs", icon: Link2 },
+  { name: "Firebase", icon: Flame },
+  { name: "MongoDB", icon: Database },
+  { name: "PostgreSQL", icon: Database },
+  { name: "MySQL", icon: Database },
+  { name: "Linux", icon: Terminal },
+  { name: "Github", icon: Github },
+  { name: "Vercel", icon: Cloud },
+  { name: "Postman", icon: Send },
+] as const
+
 const stagger = {
   hidden: { opacity: 0 },
   visible: {
@@ -49,7 +100,18 @@ const fadeUp = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
 }
 
+
 export function HeroSection() {
+  const [isHovered, setIsHovered] = useState(false)
+
+  const handleHoverStart = useCallback(() => {
+    setIsHovered(true)
+  }, [])
+
+  const handleHoverEnd = useCallback(() => {
+    setIsHovered(false)
+  }, [])
+
   return (
     <section
       id="hero"
@@ -58,7 +120,93 @@ export function HeroSection() {
       {/* Emerald radial glow behind the entire hero */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/[0.04] blur-[120px] pointer-events-none" />
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12">
+      {/* Premium status pill — Dynamic Island inspired */}
+      <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="absolute top-5 left-1/2 -translate-x-1/2 z-50"
+    >
+      <motion.div
+        layout
+        onHoverStart={handleHoverStart}
+        onHoverEnd={handleHoverEnd}
+        onFocus={handleHoverStart}
+        onBlur={handleHoverEnd}
+        transition={{
+          type: "spring",
+          stiffness: 220,
+          damping: 26,
+        }}
+        style={{
+          borderRadius: isHovered ? 16 : 9999,
+        }}
+        whileHover={{ scale: 1.02 }}
+        whileFocus={{ scale: 1.02 }}
+        tabIndex={0}
+        className="
+          flex items-center overflow-hidden
+          min-h-[30px] py-2 pl-3 pr-4
+          md:min-h-[30px] md:py-2 md:pl-4 md:pr-5
+          bg-white/[0.06] dark:bg-white/[0.04]
+          border border-white/[0.08] dark:border-white/[0.06]
+          backdrop-blur-xl
+          shadow-[0_8px_32px_-8px_rgba(0,0,0,0.4)]
+          cursor-default select-none
+          outline-none
+          focus-visible:ring-1 focus-visible:ring-primary/30
+        "
+      >
+        {/* Status */}
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="relative flex h-2 w-2 shrink-0 rounded-full bg-primary shadow-[0_0_10px_var(--primary)] motion-safe:animate-pulse" />
+          <span className="text-[13px] md:text-sm font-medium tracking-tight whitespace-nowrap">
+            Currently not available
+          </span>
+        </div>
+
+        {/* Expanded Section */}
+        <AnimatePresence mode="wait" initial={false}>
+          {isHovered && (
+            <motion.div
+              layout="position"
+              key="expanded"
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -10 }}
+              transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 26,
+              }}
+              className="flex flex-col gap-2 pl-4 ml-4 border-l border-white/10"
+            >
+              <span className="text-xs text-muted-foreground whitespace-nowrap">
+                But open for your proposal
+              </span>
+
+              <Link
+                href="#contact"
+                className="
+                  inline-flex items-center gap-2
+                  px-3 py-1.5 rounded-lg
+                  bg-primary/15 border border-primary/30
+                  text-primary text-xs font-medium
+                  hover:bg-primary/25
+                  transition-all duration-300
+                "
+              >
+                <Mail className="w-3.5 h-3.5" />
+                Send mail
+                <ChevronRight className="w-3 h-3" />
+              </Link>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </motion.div>
+
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-12 py-16 lg:py-0">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Left side - Content */}
           <motion.div
@@ -67,19 +215,6 @@ export function HeroSection() {
             animate="visible"
             className="lg:col-span-7 flex flex-col gap-6"
           >
-            {/* Status badge */}
-            <motion.div variants={fadeUp} className="flex items-center gap-3">
-              <div className="relative flex items-center gap-2 px-3 py-1.5 bg-primary/[0.08] border border-primary/20 rounded-full">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-                </span>
-                <span className="text-xs font-mono tracking-wider text-primary">
-                  Available for projects
-                </span>
-              </div>
-            </motion.div>
-
             {/* Terminal-style intro */}
             <motion.div variants={fadeUp} className="flex items-center gap-2 text-muted-foreground/50">
               <Terminal className="w-3.5 h-3.5" />
@@ -88,7 +223,7 @@ export function HeroSection() {
 
             {/* Name with creative treatment */}
             <motion.div variants={fadeUp}>
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold tracking-tight leading-[0.9]">
+              <h1 className="flex items-end gap-3 text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold tracking-tight leading-[0.9]">
                 <span className="block text-foreground">Siyam</span>
                 <span className="block text-primary mt-2 relative">
                   Mahdi
@@ -142,18 +277,6 @@ export function HeroSection() {
               <span className="text-muted-foreground/70">{"}"}</span>
             </motion.div>
 
-            {/* Tech stack badges */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-2">
-              {["Next.js", "React", "Node.js", "TypeScript", "MongoDB", "Webflow"].map((tech) => (
-                <span
-                  key={tech}
-                  className="px-3 py-1.5 text-xs font-mono bg-secondary/60 text-secondary-foreground rounded-md border border-border/50 hover:border-primary/30 hover:bg-primary/5 hover:text-primary transition-all duration-300 cursor-default"
-                >
-                  {tech}
-                </span>
-              ))}
-            </motion.div>
-
             {/* Social links - HIGHLIGHTED */}
             <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mt-2">
               {socialLinks.map((link) => {
@@ -191,20 +314,20 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Right side - Photo with creative frame */}
+          {/* Right side - Photo frame + tech stack stacked below */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, rotate: 2 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 flex justify-center lg:justify-end"
+            className="lg:col-span-5 flex flex-col items-center lg:items-end mt-8 lg:mt-0 w-full"
           >
-            <div className="relative group">
+            <div className="relative group w-full max-w-[22rem] flex justify-center lg:justify-end">
               {/* Multi-layer glow */}
               <div className="absolute -inset-8 bg-primary/[0.06] rounded-3xl blur-3xl transition-all duration-700 group-hover:bg-primary/[0.1]" />
               <div className="absolute -inset-4 bg-primary/[0.04] rounded-2xl blur-xl" />
 
               {/* Main photo container */}
-              <div className="relative w-72 h-96 sm:w-80 sm:h-[28rem] lg:w-[22rem] lg:h-[30rem] rounded-2xl overflow-hidden border-2 border-primary/20 group-hover:border-primary/40 transition-all duration-500">
+              <div className="relative w-64 h-80 sm:w-72 sm:h-[22rem] lg:w-[22rem] lg:h-[24rem] rounded-2xl overflow-hidden border-2 border-primary/20 group-hover:border-primary/40 transition-all duration-500">
                 <Image
                   src="/images/siyam-hero.jpg"
                   alt="Siyam Mahdi - Developer Portrait"
@@ -217,8 +340,8 @@ export function HeroSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-70" />
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/[0.05] to-transparent" />
 
-                {/* Name overlay at bottom */}
-                <div className="absolute bottom-0 left-0 right-0 p-6">
+                {/* Name overlay at bottom of image only */}
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
                   <div className="flex items-center gap-2">
                     <div className="w-8 h-px bg-primary/60" />
                     <span className="text-xs font-mono text-primary/80 tracking-widest uppercase">Developer</span>
@@ -254,6 +377,31 @@ export function HeroSection() {
                   <span className="text-[10px] font-mono text-primary/80">MERN + Next.js</span>
                 </div>
               </motion.div>
+            </div>
+
+            {/* Tech stack slider — directly below image frame, same width */}
+            <div className="relative w-full max-w-[22rem] mt-20 overflow-hidden ">
+              <div className="pointer-events-none absolute inset-y-0 left-0 w-12 sm:w-16 z-10 bg-gradient-to-r from-[#010805] via-[#010805]/50 to-transparent" />
+              <div className="pointer-events-none absolute inset-y-0 right-0 w-12 sm:w-16 z-10 bg-gradient-to-l from-background via-background/80 to-transparent" />
+              <Marquee
+                gradient={false}
+                speed={36}
+                pauseOnHover
+                className="[&>div]:flex [&>div]:gap-2 [&>div]:py-1"
+              >
+                {skills.map((skill) => {
+                  const Icon = skill.icon
+                  return (
+                    <span
+                      key={skill.name}
+                      className="flex items-center gap-2 px-3 py-2 text-xs font-mono bg-card/80 text-foreground/90 rounded-lg border border-border/50 hover:border-primary/40 hover:text-primary hover:bg-primary/5 transition-all duration-300 cursor-default shrink-0"
+                    >
+                      <Icon className="w-3.5 h-3.5 text-primary/80 shrink-0" aria-hidden />
+                      {skill.name}
+                    </span>
+                  )
+                })}
+              </Marquee>
             </div>
           </motion.div>
         </div>
