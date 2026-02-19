@@ -85,7 +85,7 @@ export function ContactSection() {
             <p className="text-muted-foreground leading-relaxed mb-8 max-w-md">
               {"Have a project in mind? I'm always open to discussing new opportunities, creative ideas, or partnerships."}
             </p>
-            <div className="flex items-center gap-4">
+            <div className="flex  items-center gap-4">
               <a
                 href="mailto:siyam@email.com"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all duration-300 animate-emerald-pulse"

@@ -13,39 +13,113 @@ import {
   Layers,
   Image as ImageIcon,
   ArrowRight,
-  Command,
   Globe,
   Download,
 } from "lucide-react"
+import { blogPosts } from "@/lib/blog-data"
+import { resources } from "@/lib/resources-data"
+import { projects } from "@/lib/works-data"
 
-const searchItems = [
-  // Pages
-  { id: "page-blog", label: "Blog", description: "Read all articles and technical writing", icon: BookOpen, category: "Pages", action: "/blog" },
-  { id: "page-resources", label: "Resource Hub", description: "Creative tools, libraries, and learning materials", icon: Download, category: "Pages", action: "/resources" },
-  // Navigation
-  { id: "nav-works", label: "Works", description: "View selected projects", icon: Briefcase, category: "Sections", action: "#works" },
-  { id: "nav-playground", label: "Lab / Playground", description: "Experiments and UI explorations", icon: Layers, category: "Sections", action: "#playground" },
-  { id: "nav-gallery", label: "Photo Gallery", description: "Personal moments", icon: ImageIcon, category: "Sections", action: "#gallery" },
-  { id: "nav-blog", label: "Writing", description: "Technical articles preview", icon: BookOpen, category: "Sections", action: "#blog" },
-  { id: "nav-resume", label: "Resume", description: "Experience and skills", icon: User, category: "Sections", action: "#resume" },
-  { id: "nav-contact", label: "Contact", description: "Get in touch", icon: Mail, category: "Sections", action: "#contact" },
-  // Works
-  { id: "work-apex", label: "Apex Commerce", description: "Full-stack e-commerce platform", icon: Briefcase, category: "Works", action: "#works" },
-  { id: "work-neuro", label: "NeuroFlow", description: "AI-powered SaaS dashboard", icon: Briefcase, category: "Works", action: "#works" },
-  { id: "work-meridian", label: "Meridian Studio", description: "Webflow + CMS project", icon: Briefcase, category: "Works", action: "#works" },
-  { id: "work-vault", label: "VaultSync", description: "Encrypted file sync platform", icon: Briefcase, category: "Works", action: "#works" },
-  // Blog Articles
-  { id: "blog-api", label: "Building Scalable APIs with Node.js", description: "Backend architecture deep dive", icon: FileText, category: "Articles", action: "/blog/building-scalable-apis-nodejs-mongodb" },
-  { id: "blog-next", label: "Advanced Next.js Patterns", description: "Production patterns and optimization", icon: FileText, category: "Articles", action: "/blog/advanced-nextjs-patterns-production" },
-  { id: "blog-webflow", label: "Webflow for Developers", description: "Beyond the basics", icon: FileText, category: "Articles", action: "/blog/webflow-for-developers-beyond-basics" },
-  { id: "blog-perf", label: "Performance Optimization Guide", description: "60 to 100 Lighthouse score", icon: FileText, category: "Articles", action: "/blog/performance-optimization-60-to-100-lighthouse" },
-  { id: "blog-arch", label: "Clean Architecture in MERN", description: "Structuring large-scale applications", icon: FileText, category: "Articles", action: "/blog/clean-architecture-mern-stack" },
-  { id: "blog-ts", label: "TypeScript Patterns That Matter", description: "Advanced type-level programming", icon: FileText, category: "Articles", action: "/blog/typescript-patterns-real-world" },
-  // Resources
-  { id: "res-tailwind", label: "Tailwind CSS", description: "Utility-first CSS framework", icon: Globe, category: "Resources", action: "/resources" },
-  { id: "res-shadcn", label: "Shadcn UI", description: "Beautiful component library", icon: Globe, category: "Resources", action: "/resources" },
-  { id: "res-framer", label: "Framer Motion", description: "Animation library for React", icon: Globe, category: "Resources", action: "/resources" },
-]
+type SearchItem = {
+  id: string
+  label: string
+  description: string
+  icon: React.ElementType
+  category: string
+  action: string
+  searchableText: string
+}
+
+function buildSearchItems(): SearchItem[] {
+  const items: SearchItem[] = []
+
+  // Pages — include keywords so "blog", "articles", "resources", "tools" etc. match
+  items.push({
+    id: "page-blog",
+    label: "Blog",
+    description: "Read all articles and technical writing",
+    icon: BookOpen,
+    category: "Pages",
+    action: "/blog",
+    searchableText: "blog articles technical writing read posts",
+  })
+  items.push({
+    id: "page-resources",
+    label: "Resource Hub",
+    description: "Creative tools, libraries, and learning materials",
+    icon: Download,
+    category: "Pages",
+    action: "/resources",
+    searchableText: "resources hub tools libraries learning materials creative design development inspiration",
+  })
+
+  // Sections — rich text so section names and related words match
+  const sections: { id: string; label: string; description: string; icon: React.ElementType; action: string; searchableText: string }[] = [
+    { id: "nav-works", label: "Works", description: "View selected projects", icon: Briefcase, action: "#works", searchableText: "works projects portfolio selected case studies" },
+    { id: "nav-playground", label: "Lab / Playground", description: "Experiments and UI explorations", icon: Layers, action: "#playground", searchableText: "lab playground experiments UI explorations" },
+    { id: "nav-gallery", label: "Photo Gallery", description: "Personal moments", icon: ImageIcon, action: "#gallery", searchableText: "gallery photos images personal moments" },
+    { id: "nav-blog", label: "Writing", description: "Technical articles preview", icon: BookOpen, action: "#blog", searchableText: "writing blog articles technical preview" },
+    { id: "nav-resume", label: "Resume", description: "Experience and skills", icon: User, action: "#resume", searchableText: "resume experience skills work history education" },
+    { id: "nav-contact", label: "Contact", description: "Get in touch", icon: Mail, action: "#contact", searchableText: "contact get in touch mail email hire" },
+  ]
+  sections.forEach((s) => items.push({ ...s, category: "Sections" }))
+
+  // Works — full project text (description, problem, solution, stack, etc.)
+  projects.forEach((p) => {
+    const searchableText = [
+      p.title,
+      p.category,
+      p.description,
+      p.problem,
+      p.solution,
+      p.architecture,
+      p.stack.join(" "),
+      p.performance.join(" "),
+      p.year,
+    ].join(" ")
+    items.push({
+      id: `work-${p.id}`,
+      label: p.title,
+      description: p.description,
+      icon: Briefcase,
+      category: "Works",
+      action: "#works",
+      searchableText,
+    })
+  })
+
+  // Blog — full post text (title, excerpt, content, category, tags)
+  blogPosts.forEach((p) => {
+    const searchableText = [p.title, p.excerpt, p.content, p.category, p.tags.join(" ")].join(" ")
+    items.push({
+      id: `blog-${p.slug}`,
+      label: p.title,
+      description: p.excerpt,
+      icon: FileText,
+      category: "Articles",
+      action: `/blog/${p.slug}`,
+      searchableText,
+    })
+  })
+
+  // Resources — full text (title, description, category, tags)
+  resources.forEach((r) => {
+    const searchableText = [r.title, r.description, r.category, r.tags.join(" ")].join(" ")
+    items.push({
+      id: `res-${r.title.toLowerCase().replace(/\s+/g, "-")}`,
+      label: r.title,
+      description: r.description,
+      icon: Globe,
+      category: "Resources",
+      action: "/resources",
+      searchableText,
+    })
+  })
+
+  return items
+}
+
+const searchItems = buildSearchItems()
 
 export function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false)
@@ -53,20 +127,17 @@ export function CommandPalette() {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const router = useRouter()
 
-  const filteredItems = searchItems.filter(
-    (item) =>
-      item.label.toLowerCase().includes(query.toLowerCase()) ||
-      item.description.toLowerCase().includes(query.toLowerCase()) ||
-      item.category.toLowerCase().includes(query.toLowerCase())
+  const filteredItems = searchItems.filter((item) =>
+    item.searchableText.toLowerCase().includes(query.toLowerCase())
   )
 
-  const groupedItems = filteredItems.reduce<Record<string, typeof searchItems>>((acc, item) => {
+  const groupedItems = filteredItems.reduce<Record<string, SearchItem[]>>((acc, item) => {
     if (!acc[item.category]) acc[item.category] = []
     acc[item.category].push(item)
     return acc
   }, {})
 
-  const handleSelect = useCallback((item: (typeof searchItems)[0]) => {
+  const handleSelect = useCallback((item: SearchItem) => {
     setIsOpen(false)
     setQuery("")
     if (item.action.startsWith("/")) {
@@ -116,16 +187,23 @@ export function CommandPalette() {
     setSelectedIndex(0)
   }, [query])
 
+  useEffect(() => {
+    const open = () => setIsOpen(true)
+    window.addEventListener("open-command-palette", open)
+    return () => window.removeEventListener("open-command-palette", open)
+  }, [])
+
   return (
     <>
-      {/* Trigger hint */}
+      {/* Trigger — visible on all devices (drawer overlay covers it when open) */}
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 left-6 z-50 flex items-center gap-2 px-3 py-2 bg-card/80 backdrop-blur-sm border border-border/50 rounded-lg text-xs font-mono text-muted-foreground hover:text-foreground hover:border-primary/30 transition-all duration-300 cursor-pointer"
-        aria-label="Open command palette"
+        className="fixed bottom-6 left-6 z-[99] flex items-center gap-2 px-3 py-2.5 bg-card/90 backdrop-blur-sm border border-border/60 rounded-lg text-xs font-mono text-muted-foreground hover:text-foreground hover:border-primary/30 hover:bg-card transition-all duration-300 cursor-pointer shadow-sm"
+        aria-label="Open search (⌘K)"
       >
-        <Command className="w-3 h-3" />
-        <span className="hidden sm:inline">K</span>
+        <Search className="w-4 h-4 shrink-0" />
+        <span className="hidden sm:inline">Search</span>
+        <kbd className="hidden sm:inline text-[10px] px-1.5 py-0.5 rounded bg-muted/60 border border-border/40">⌘K</kbd>
       </button>
 
       <AnimatePresence>

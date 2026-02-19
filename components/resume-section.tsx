@@ -116,15 +116,15 @@ export function ResumeSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex items-center gap-4 mt-12"
+          className="flex items-center gap-4 mt-12 flex-col md:flex-row"
         >
           <button
             onClick={() => setIsModalOpen(true)}
-            className="px-6 py-3 bg-primary text-primary-foreground text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all duration-300 animate-emerald-pulse cursor-pointer"
+            className="px-6 w-full md:w-auto py-3 bg-primary text-primary-foreground text-sm font-semibold rounded-xl hover:bg-primary/90 transition-all duration-300 animate-emerald-pulse cursor-pointer"
           >
             View Full Resume
           </button>
-          <button className="flex items-center gap-2 px-6 py-3 text-sm font-medium text-muted-foreground border border-border rounded-lg hover:border-primary/40 hover:text-foreground transition-all duration-300 cursor-pointer">
+          <button className="flex w-full md:w-auto items-center gap-2 px-6 py-3 text-sm font-medium text-muted-foreground border border-border rounded-xl hover:border-primary/40 hover:text-foreground transition-all duration-300 cursor-pointer justify-center">
             <Download className="w-4 h-4" />
             Download PDF
           </button>

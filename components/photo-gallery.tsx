@@ -48,6 +48,12 @@ const photos = [
     caption: "Sharing knowledge",
     span: "col-span-1 row-span-1",
   },
+  {
+    src: "/images/gallery/photo-7.jpg",
+    alt: "Speaking at event",
+    caption: "Sharing knowledge",
+    span: "col-span-1 row-span-1",
+  },
 ]
 
 export function PhotoGallery() {
@@ -133,7 +139,7 @@ export function PhotoGallery() {
             {/* Close */}
             <button
               onClick={() => setSelectedIndex(null)}
-              className="absolute top-6 right-6 p-2 text-muted-foreground hover:text-foreground transition-colors z-10 cursor-pointer"
+              className="absolute z-[999] top-6 right-6 p-2 text-muted-foreground hover:text-foreground transition-colors z-10 cursor-pointer"
               aria-label="Close lightbox"
             >
               <X className="w-6 h-6" />
@@ -142,14 +148,14 @@ export function PhotoGallery() {
             {/* Navigation */}
             <button
               onClick={(e) => { e.stopPropagation(); navigatePhoto("prev") }}
-              className="absolute left-4 md:left-8 p-2 text-muted-foreground hover:text-foreground transition-colors z-10 cursor-pointer"
+              className="absolute left-4 md:left-48 p-2 text-muted-foreground hover:text-foreground transition-colors z-10 cursor-pointer"
               aria-label="Previous photo"
             >
               <ChevronLeft className="w-8 h-8" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); navigatePhoto("next") }}
-              className="absolute right-4 md:right-8 p-2 text-muted-foreground hover:text-foreground transition-colors z-10 cursor-pointer"
+              className="absolute right-4 md:right-48 p-2 text-muted-foreground hover:text-foreground transition-colors z-10 cursor-pointer"
               aria-label="Next photo"
             >
               <ChevronRight className="w-8 h-8" />

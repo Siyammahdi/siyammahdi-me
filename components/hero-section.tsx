@@ -213,7 +213,7 @@ export function HeroSection() {
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="lg:col-span-7 flex flex-col gap-6"
+            className="lg:col-span-7 flex flex-col gap-6 mt-26 lg:mt-0"
           >
             {/* Terminal-style intro */}
             <motion.div variants={fadeUp} className="flex items-center gap-2 text-muted-foreground/50">
@@ -278,7 +278,7 @@ export function HeroSection() {
             </motion.div>
 
             {/* Social links - HIGHLIGHTED */}
-            <motion.div variants={fadeUp} className="flex flex-wrap gap-3 mt-2">
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-3 md:gap-1 mt-2">
               {socialLinks.map((link) => {
                 const Icon = link.icon
                 const isInternal = link.href.startsWith("#")
@@ -288,10 +288,10 @@ export function HeroSection() {
                     key={link.name}
                     href={link.href}
                     {...(!isInternal && { target: "_blank", rel: "noopener noreferrer" })}
-                    className={`group flex items-center gap-2.5 px-4 py-2.5 bg-card/60 border border-border/50 rounded-xl text-sm font-medium text-muted-foreground transition-all duration-300 ${link.color} ${link.glow}`}
+                    className={`group flex items-center gap-1 md:gap-2.5 px-2 py-1.5 md:px-4 md:py-2.5 bg-card/60 border border-border/50 rounded-xl text-sm font-medium text-muted-foreground transition-all duration-300 ${link.color} ${link.glow}`}
                   >
                     <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110" />
-                    <span>{link.name}</span>
+                    <span className="text-xs">{link.name}</span>
                   </Wrapper>
                 )
               })}
