@@ -363,7 +363,7 @@ export function HeroSection() {
               >
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-primary animate-subtle-glow" />
-                  <span className="text-[10px] font-mono text-primary/80">5+ years exp</span>
+                  <span className="text-[10px] font-mono text-primary/80">2+ years exp</span>
                 </div>
               </motion.div>
 
@@ -374,7 +374,7 @@ export function HeroSection() {
                 className="absolute -left-6 bottom-24 px-3 py-2 bg-card/90 backdrop-blur-md border border-primary/20 rounded-lg shadow-lg"
               >
                 <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono text-primary/80">MERN + Next.js</span>
+                  <span className="text-[10px] font-mono text-primary/80">MERN Stack + Webflow</span>
                 </div>
               </motion.div>
             </div>

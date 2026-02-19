@@ -84,9 +84,9 @@ export const projects: Project[] = [
     performance: ["256-bit encryption", "99.99% data integrity", "SOC 2 compliant"],
     year: "2023",
     color: "from-accent/10 to-transparent",
-    thumbnail: "https://images.unsplash.com/photo-1633265486064-086b21a93951?w=400&q=80",
+    thumbnail: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?w=800&q=80",
     gallery: [
-      "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80",
+      "https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=800&q=80",
       "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80",
       "https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=800&q=80",
     ],
