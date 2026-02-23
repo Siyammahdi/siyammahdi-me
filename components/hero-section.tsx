@@ -186,7 +186,7 @@ export function HeroSection() {
               </span>
 
               <Link
-                href="#contact"
+                href="mailto:siyammahdi1@gmail.com"
                 className="
                   inline-flex items-center gap-2
                   px-3 py-1.5 rounded-lg
